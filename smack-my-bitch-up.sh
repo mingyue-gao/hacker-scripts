@@ -5,9 +5,8 @@ if ! who | grep -wq $USER; then
   exit
 fi
 
-# Phone numbers
-MY_NUMBER='+xxx'
-HER_NUMBER='+xxx'
+# Emails
+HER_EMAIL='gao.myue@gmail.com'
 
 REASONS=(
   'Working hard'
@@ -17,12 +16,21 @@ REASONS=(
 rand=$[ $RANDOM % ${#REASONS[@]} ]
 
 RANDOM_REASON=${REASONS[$rand]}
-MESSAGE="Late at work. "$RANDOM_REASON
+SUBJECT="Late at work. "$RANDOM_REASON
+
+TIMETABLE=( "17:30 17:50 18:30 18:50 19:30 20:30 21:30 22:30" )
+
+STAYLATE=`kdialog --title "Mingyue's Choice" --yesno "Stay working a little longer?"`
+
+if STAYLATE == 1; then
+    exit
+fi
+
+TIMETOLEAVE=`kdialog --combobox "Leave company at:" ${TIMETABLE}`
+MESSAGE="Could leave at "$TIMETOLEAVE"."
 
 # Send a text message
-RESPONSE=`curl -fSs -u "$TWILIO_ACCOUNT_SID:$TWILIO_AUTH_TOKEN" \
-  -d "From=$MY_NUMBER" -d "To=$HER_NUMBER" -d "Body=$MESSAGE" \
-  "https://api.twilio.com/2010-04-01/Accounts/$TWILIO_ACCOUNT_SID/Messages"`
+RESPONSE=`mail -s "${SUBJECT}" ${HER_EMAIL} <<< "${MESSAGE}"`
 
 # Log errors
 if [ $? -gt 0 ]; then
