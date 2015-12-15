@@ -1,17 +1,22 @@
 #!/bin/sh -e
 
+export DISPLAY=:0
+export XAUTHORITY=~/.Xauthority
 # Exit early if no sessions with my username are found
 if ! who | grep -wq $USER; then
   exit
 fi
 
 # Emails
-HER_EMAIL='gao.myue@gmail.com'
+HER_EMAIL='ying.zhang@vires.com'
 
 REASONS=(
   'Working hard'
   'Gotta ship this feature'
   'Someone fucked the system again'
+  'Something here is screwed up'
+  'The stupid Boscher killed me again'
+  'In coding mode, cannot help but stop'
 )
 rand=$[ $RANDOM % ${#REASONS[@]} ]
 
