@@ -27,7 +27,7 @@ TIMETABLE=( "17:30 17:50 18:30 18:50 19:30 20:30 21:30 22:30" )
 
 STAYLATE=`kdialog --title "Mingyue's Choice" --yesno "Stay working a little longer?"`
 
-if STAYLATE == 1; then
+if [ STAYLATE == 1 ]; then
     exit
 fi
 
